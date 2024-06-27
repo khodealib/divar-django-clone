@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from accounts.models import User
-from accounts.serializers import UserRegistarionSerializer
+from accounts.serializers import UserChangePasswordSerializer, UserRegistarionSerializer
 
 
 class UserRegisterView(generics.CreateAPIView):
@@ -25,5 +25,12 @@ class UserChangePasswordView(generics.UpdateAPIView):
     """
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserRegistarionSerializer
-    queryset = User.objects.all()
+    serializer_class = UserChangePasswordSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = request.user
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.update(instance, serializer.validated_data)
+        return Response(status=status.HTTP_200_OK)
+        
