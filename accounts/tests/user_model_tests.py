@@ -4,18 +4,17 @@ from django.test import TestCase
 from accounts.models import User
 
 
-# Create your tests here.
 class UserModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             email="test@example.com",
-            password="test123",
+            password="Admin@12345678",
             first_name="Test",
             last_name="Test",
         )
         self.superuser = User.objects.create_superuser(
             email="admin@example.com",
-            password="admin123",
+            password="Admin@12345678",
             first_name="Admin",
             last_name="Admin",
         )
@@ -33,7 +32,7 @@ class UserModelTest(TestCase):
         with self.assertRaises(IntegrityError):
             User.objects.create_user(
                 email="test@example.com",
-                password="test123",
+                password="Admin@12345678",
                 first_name="Test",
                 last_name="Test",
             )

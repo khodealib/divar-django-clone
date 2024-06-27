@@ -1,4 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.password_validation import validate_password
+from django.forms import ValidationError
 
 
 class UserManager(BaseUserManager):
@@ -7,7 +9,11 @@ class UserManager(BaseUserManager):
             raise ValueError("Email must be provided")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)
+        try:
+            validate_password(password)
+            user.set_password(password)
+        except ValidationError as e:
+            raise e
         user.save(using=self._db)
         return user
 
