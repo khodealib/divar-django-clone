@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
         "last_login",
     )
     ordering = ("-date_joined",)
-    search_fields = ( "email", "first_name", "last_name")
+    search_fields = ("email", "first_name", "last_name")
     list_filter = ("is_staff", "is_active", "date_joined", "last_login")
     fieldsets = (
         (None, {"fields": ("email", "password")}),

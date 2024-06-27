@@ -4,7 +4,6 @@ from django.test import TestCase
 from accounts.models import User
 
 
-# Create your tests here.
 class UserModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
