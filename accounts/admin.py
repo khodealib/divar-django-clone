@@ -10,7 +10,6 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     list_display = (
-        "uuid",
         "email",
         "first_name",
         "last_name",
@@ -20,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
         "last_login",
     )
     ordering = ("-date_joined",)
-    search_fields = ("uuid", "email", "first_name", "last_name")
+    search_fields = ( "email", "first_name", "last_name")
     list_filter = ("is_staff", "is_active", "date_joined", "last_login")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -45,7 +44,7 @@ class UserAdmin(BaseUserAdmin):
             "fields": ("email", "first_name", "last_name", "password1", "password2"),
         },
     )
-    readonly_fields = ("uuid", "date_joined", "last_login")
+    readonly_fields = ("date_joined", "last_login")
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
