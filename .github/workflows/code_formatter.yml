@@ -12,17 +12,20 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: '3.12.4'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black isort
+        pip install black isort autoflake
+
+    - name: Remove unused imports with autoflake
+      run: autoflake --remove-all-unused-imports --recursive --remove-unused-variables --in-place .
 
     - name: Run isort
       run: isort .
@@ -31,7 +34,7 @@ jobs:
       run: black --line-length 120 .
 
     - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Apply code formatting changes
         file_pattern: '*'
