@@ -1,0 +1,29 @@
+name: Code Formatter
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.12.4
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.12.4
+    - name: Install Black and isort
+      run: pip install black isort
+    - name: Run isort
+      run: isort .
+    - name: Run Black
+      run: black --line-length 120 .
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply code formatting changes
+        file_pattern: .
