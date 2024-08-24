@@ -33,4 +33,3 @@ class UserChangePasswordView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.update(instance, serializer.validated_data)
         return Response(status=status.HTTP_200_OK)
-        

@@ -19,21 +19,21 @@ class UserJWTViewsTest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("access", response.data)
         self.assertIn("refresh", response.data)
-    
+
     def test_obtain_token_invalid_credentials(self):
         data = {"email": "test@example.com", "password": "wrong_password"}
         response = self.client.post("/accounts/token/", data, format="json")
         self.assertEqual(response.status_code, 401)
         self.assertNotIn("access", response.data)
         self.assertNotIn("refresh", response.data)
-    
+
     def test_verify_token(self):
         data = {"email": "test@example.com", "password": "Admin@12345678"}
         access_token = self.client.post("/accounts/token/", data, format="json").data.get("access")
         data = {"token": access_token}
         response = self.client.post("/accounts/token/verify/", data, format="json")
         self.assertEqual(response.status_code, 200)
-        
+
     def test_refresh_token(self):
         data = {"email": "test@example.com", "password": "Admin@12345678"}
         tokens = self.client.post("/accounts/token/", data, format="json").data

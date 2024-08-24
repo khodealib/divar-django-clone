@@ -24,9 +24,7 @@ class UserRegistarionSerializer(serializers.ModelSerializer):
         try:
             user = User.objects.create_user(**validated_data)
         except ValidationError as e:
-            raise serializers.ValidationError(
-                detail=e.messages, code=status.HTTP_400_BAD_REQUEST
-            )
+            raise serializers.ValidationError(detail=e.messages, code=status.HTTP_400_BAD_REQUEST)
         return user
 
 
