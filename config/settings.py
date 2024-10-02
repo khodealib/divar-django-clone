@@ -41,15 +41,14 @@ INSTALLED_APPS = [
     "rest_framework",
     # Local apps
     "accounts.apps.AccountsConfig",
+    "categories.apps.CategoriesConfig",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
 
 # Rest Framework settings
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
 }
 
 MIDDLEWARE = [
