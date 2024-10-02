@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # Local apps
     "accounts.apps.AccountsConfig",
     "categories.apps.CategoriesConfig",
+    "locations.apps.LocationsConfig",
+    "advertisements.apps.AdvertisementsConfig",
 ]
 
 AUTH_USER_MODEL = "accounts.User"
