@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from categories.models import Category
@@ -18,12 +19,7 @@ class Advertisement(BaseModel):
     Each user can one or more advertisement to publish 📢
     """
 
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name=_("user"),
-        related_name="advertisements",
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"), related_name="advertisements")
     title = models.CharField(max_length=50, verbose_name=_("title"))
     description = models.TextField(blank=True, verbose_name=_("description"))
     price = models.PositiveIntegerField(default=0, verbose_name=_("description"))
@@ -52,7 +48,7 @@ class Advertisement(BaseModel):
         """
         Get data an Advertisement and Save it in Database 💾
         """
-        adv = cls.objects.create(
+        new_object = cls.objects.create(
             user=user,
             title=title,
             description=description,
@@ -61,12 +57,10 @@ class Advertisement(BaseModel):
             category=category,
         )
         for file in images:
-            adv.images.create(name=generate_random_string(), image_file=file)
-        adv.save()
+            new_object.images.create(name=generate_random_string(), image_file=file)
+        new_object.save()
 
     def get_absolute_url(self):
-        from django.urls import reverse
-
         return reverse("advertisement-detail", args=[str(self.pk)])
 
     @classmethod
@@ -100,7 +94,7 @@ class Attribute(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("attribute"))
 
 
-class AdvAttrValue(models.Model):
+class AdvertisementAttributeValue(models.Model):
     advertisement = models.ForeignKey(
         Advertisement,
         on_delete=models.CASCADE,
@@ -110,7 +104,7 @@ class AdvAttrValue(models.Model):
     attribute = models.ForeignKey(
         Attribute,
         on_delete=models.CASCADE,
-        related_name="attributes",
+        related_name="values",
         verbose_name=_("attribute"),
     )
     value = models.CharField(max_length=50, verbose_name=_("value"))

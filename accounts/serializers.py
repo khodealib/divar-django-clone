@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers, status
 
 from accounts.models import User
@@ -36,7 +37,7 @@ class UserChangePasswordSerializer(serializers.Serializer):
     def validate(self, data):
         if data["new_password"] != data["confirm_password"]:
             raise serializers.ValidationError(
-                {"confirm_password": ["Passwords do not match."]},
+                {"confirm_password": [_("passwords don't match.")]},
                 code=status.HTTP_400_BAD_REQUEST,
             )
         return data
